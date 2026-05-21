@@ -26,7 +26,7 @@ O arquivo principal (`index.html`) atua como um portal de documentação detalha
 ## 🌐 Visualização do Projeto
 
 Você pode conferir a documentação renderizada diretamente pelo GitHub Pages acessando o link abaixo:
-> **https://barbosawe.github.io/NOME_DO_SEU_REPOSITORIO/** *(Lembre-se de substituir `NOME_DO_SEU_REPOSITORIO` pelo nome real que você deu a este projeto no GitHub)*
+> **https://barbosawe.github.io/laboratorio-az104** 
 
 ---
 

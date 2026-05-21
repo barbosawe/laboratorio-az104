@@ -6,7 +6,7 @@ Este projeto é um laboratório de **Infraestrutura como Código (IaC)** focado 
 
 ## 🎯 Objetivo do Projeto
 
-Aprofundar os conhecimentos em administração de infraestrutura cloud rumo à **certificação Microsoft AZ-104**. A transição para a automação e implantação via templates é o próximo passo após a consolidação dos fundamentos (AZ-900). Esse domínio permite escalar recursos com precisão, habilidade que considero essencial no dia a dia de operações de TI, monitoramento de segurança (NOC/SOC) e análise de dados.
+Aprofundar os conhecimentos em administração de infraestrutura cloud rumo à **certificação Microsoft AZ-104**. A transição para a automação e implantação via templates é o próximo passo após a consolidação dos fundamentos (AZ-900). Esse domínio permite escalar recursos com precisão, habilidade que considero essencial no dia a dia de operações de TI.
 
 ## 🛠️ Tecnologias e Ferramentas Utilizadas
 

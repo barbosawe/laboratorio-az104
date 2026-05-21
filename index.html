@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZ-104: Implantação com ARM Templates</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .foto-redonda {
+            width: 188px;
+            height: 188px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #4da6ff;
+            display: block;
+            animation: fotosPerfil 3s ease-in-out infinite alternate;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fotosPerfil {
+            from {
+                transform: scale(1);
+                border-color: #4da6ff;
+            }
+            to {
+                transform: scale(1.05);
+                border-color: #005A9E;
+            }
+        }
+
+        h1, h2, h3 {
+            color: #005A9E;
+        }
+
+        h1 {
+            border-bottom: 2px solid #005A9E;
+            padding-bottom: 10px;
+        }
+
+        .destaque {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
+        }
+
+        .container-foto {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: #ccc;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 3px;
+            color: #c7254e;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .comandoColor {
+            color: #4da6ff;
+            font-weight: bold;
+        }
+
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+        }
+
+        /* Estilização da lista de redes sociais */
+        .redes-sociais {
+            list-style: none;
+            padding: 30px;
+            margin: 0;
+        }
+
+        .redes-sociais li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .redes-sociais li:last-child {
+            margin-bottom: 0;
+        }
+
+        .redes-sociais a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #4da6ff;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .redes-sociais a:hover {
+            text-decoration: underline;
+        }
+
+        .redes-sociais img {
+            height: 2.2em;
+            width: auto;
+            margin-right: 15px;
+        }
+
+        .footer-text {
+            font-size: small;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="destaque">Wellington Barbosa</h1>
+
+    <p class="container-foto">
+        <img src="Imagens/imagem2.jpg" class="foto-redonda" alt="Foto de perfil">
+    </p>
+
+    <div class="container">
+        <h1>Implantação de Recursos no Azure usando modelos JSON do Resource Manager</h1>
+
+        <p>O Azure Resource Manager (ARM) é a plataforma de implantação e gerenciamento de recursos do Azure. Ele
+            permite que você crie, atualize e exclua recursos em seu ambiente do Azure usando modelos JSON. Esses
+            modelos são arquivos de texto que definem a infraestrutura e a configuração dos recursos que você deseja
+            implantar.</p>
+
+        <h2>1. Autenticação no Azure</h2>
+        <p>Primeiro, entre no Azure usando a CLI ou o PowerShell.</p>
+        <pre><code>CLI do Azure:
+<span class="comandoColor">az login</span>
+
+PowerShell do Azure:
+<span class="comandoColor">Connect-AzAccount</span></code></pre>
+
+        <h2>2. Criação do Grupo de Recursos</h2>
+        <p>Em seguida, defina o grupo de recursos onde os recursos serão implantados. O grupo de recursos é um contêiner
+            lógico que agrupa os recursos relacionados para facilitar o gerenciamento. Você pode criar um grupo de
+            recursos usando o seguinte comando:</p>
+        <pre><code>CLI do Azure:
+az group create \
+  --name {nome_do_grupo} \
+  --location "{localização}"
+
+PowerShell do Azure:
+New-AzResourceGroup \
+  -Name {name of your resource group} \
+  -Location "{location}"</code></pre>
+
+        <h2>3. Lógica de Implantação de Modelos</h2>
+        <p>Para iniciar uma implantação de modelo no grupo de recursos, use o comando da <strong>CLI do Azure</strong>
+            <code>az deployment group create</code> ou do <strong>Azure PowerShell</strong>
+            <code>New-AzResourceGroupDeployment</code>.
+        </p>
+
+        <p>Para rodar os dois comandos, você sempre precisará informar três itens básicos:</p>
+        <ul>
+            <li>O grupo de recursos;</li>
+            <li>A região;</li>
+            <li>Um nome para a implantação (isso serve para você conseguir achar o que fez no histórico depois).</li>
+        </ul>
+
+        <p>Além disso, para facilitar a sua vida, você pode criar um "atalho" (uma variável) que guarda o endereço do
+            arquivo no seu sistema. Desse jeito, você não precisa ficar digitando aquele caminho longo toda vez que for
+            executar o comando de instalação. Veja o exemplo abaixo:</p>
+        <pre><code>templateFile="{provide-the-path-to-the-template-file}"
+
+az deployment group create \
+  --name blanktemplate \
+  --resource-group myResourceGroup \
+  --template-file $templateFile</code></pre>
+
+        <hr>
+
+        <h1>Laboratório: Evolução da Implantação</h1>
+        <p>Após entender os conceitos básicos acima, siga os passos abaixo para evoluir sua infraestrutura como código.</p>
+
+        <h2>1. Configuração Inicial do Ambiente</h2>
+        <p>Para evitar a repetição do escopo em cada comando, defina o grupo de recursos padrão da sessão:</p>
+        <pre><code>az configure --defaults group="departamentoTI"</code></pre>
+
+        <h2>2. Histórico de Implantações (Deployments)</h2>
+
+        <div class="note">
+            <strong>Dica de Sintaxe Bash:</strong> Para manter comandos longos do Azure CLI organizados e fáceis de ler,
+            sem quebrar a sintaxe, a melhor prática é usar a barra invertida. No Bash (como no MINGW64), a barra
+            invertida atua como um caractere de escape para a quebra de linha. Ela informa ao interpretador do terminal
+            que a instrução atual ainda não terminou e deve ser lida em conjunto com a próxima linha. Se colocar o
+            código sem a barra invertida pode dar erro no interpretador no terminal.
+        </div>
+
+        <h3>Implantação Base (Blank Template)</h3>
+        <pre><code>templateFile="azuredeploy.json"
+today=$(date +"%d-%b-%Y")
+DeploymentName="blanktemplate-"$today
+
+az deployment group create \
+  --name $DeploymentName \
+  --template-file $templateFile \
+  --resource-group "departamentoTI"</code></pre>
+
+        <h3>Implantação: Adicionando Storage</h3>
+        <pre><code>templateFile="azuredeploy.json"
+today=$(date +"%d-%b-%Y")
+DeploymentName="addstorage-"$today
+
+az deployment group create \
+  --name $DeploymentName \
+  --template-file $templateFile</code></pre>
+
+        <h3>Implantação: Passando Parâmetro de Nome</h3>
+        <pre><code>templateFile="azuredeploy.json"
+today=$(date +"%d-%b-%Y")
+DeploymentName="addnameparameter-"$today
+
+az deployment group create \
+  --name $DeploymentName \
+  --template-file $templateFile \
+  --parameters storageName=storageaccountlearn</code></pre>
+
+        <h3>Implantação: Testando Parâmetros de SKU (Standard_GRS)</h3>
+        <pre><code>templateFile="azuredeploy.json"
+today=$(date +"%d-%b-%Y")
+DeploymentName="addSkuParameter-"$today
+
+az deployment group create \
+  --name $DeploymentName \
+  --template-file $templateFile \
+  --parameters storageSKU=Standard_GRS storageName=storageaccountlearn</code></pre>
+
+        <h3>Implantação: Testando Parâmetros de SKU (Basic)</h3>
+        <pre><code>templateFile="azuredeploy.json"
+today=$(date +"%d-%b-%Y")
+DeploymentName="addSkuParameter-"$today
+
+az deployment group create \
+  --name $DeploymentName \
+  --template-file $templateFile \
+  --parameters storageSKU=Basic storageName=storageaccountlearn</code></pre>
+
+        <h3>Implantação: Extraindo Outputs</h3>
+        <pre><code>templateFile="azuredeploy.json"
+today=$(date +"%d-%b-%Y")
+DeploymentName="addoutputs-"$today
+
+az deployment group create \
+  --name $DeploymentName \
+  --template-file $templateFile \
+  --parameters storageSKU=Standard_LRS storageName=storageaccountbarbosa7</code></pre>
+
+        <hr>
+
+        <h2>3. Arquivo de Modelo (azuredeploy.json)</h2>
+        <p>Abaixo está o modelo JSON final utilizado nas implantações acima, contemplando as funções, variáveis,
+            recursos e a seção de <code>outputs</code>:</p>
+
+        <pre><code>{
+    "$schema": "http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageName": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 24,
+            "metadata": {
+                "description": "The name of azure storage resource"
+            }
+        },
+        "storageSKU": {
+            "type": "string",
+            "defaultValue": "Standard_LRS",
+            "allowedValues": [
+                "Standard_LRS",
+                "Standard_GRS",
+                "Standard_RAGRS",
+                "Standard_ZRS",
+                "Premium_LRS",
+                "Premium_ZRS",
+                "Standard_GZRS",
+                "Standard_RAGZRS"
+            ]
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2021-09-01",
+            "name": "[parameters('storageName')]",
+            "tags": {
+                "displayName": "Test StorageAccount for learning azure"
+            },
+            "location": "southafricanorth",
+            "kind": "StorageV2",
+            "sku": {
+                "name": "[parameters('storageSKU')]"
+            }
+        }
+    ],
+    "outputs": {
+        "storageEndpoint": {
+            "type": "object",
+            "value": "[reference(parameters('storageName')).primaryEndpoints]"  
+        }
+    }
+}</code></pre>
+    </div>
+
+    <h2 class="destaque">Onde me achar?</h2>
+
+    <ul class="container redes-sociais">
+        <li>
+            <a href="https://www.instagram.com/freud.py/" target="_blank" rel="external noopener noreferrer">
+                <img src="Imagens/icons8-instagram-48.png" alt="imagem instagram">
+                @freud.py
+            </a> 
+            - me siga no Instagram.
+        </li>
+        <li>
+            <a href="https://www.linkedin.com/in/barbosa-wellington/" target="_blank" rel="external noopener noreferrer">
+                <img src="Imagens/icons8-linkedin-48.png" alt="imagem linkedin">
+                barbosa-wellington
+            </a> 
+            - me adiciona no LinkedIn.
+        </li>
+    </ul>
+
+    <footer>
+        <p class="footer-text">&copy; 2026 Wellington Barbosa. Todos os direitos reservados.</p>
+    </footer>
+</body>
+
+</html>
